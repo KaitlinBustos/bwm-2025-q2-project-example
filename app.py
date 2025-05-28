@@ -211,8 +211,6 @@ if st.button('Predict Stigma Likelihood', type="primary"):
 
         # Make prediction
         prediction_encoded = model.predict(final_input_df)
-        prediction_proba = model.predict_proba(final_input_df)
-
 
         # Decode prediction
         # Assuming 0 means 'No consequence' and 1 means 'Yes, consequence'
@@ -225,9 +223,7 @@ if st.button('Predict Stigma Likelihood', type="primary"):
         else:
             st.success(f"Likely to face a mental health consequence in the workplace: **{prediction_label}**")
 
-        st.write("Probability of 'No Consequence':", f"{prediction_proba[0][0]:.2f}")
-        st.write("Probability of 'Yes, Consequence':", f"{prediction_proba[0][1]:.2f}")
-
+       
     except Exception as e:
         st.error(f"An error occurred during preprocessing or prediction: {e}")
         st.write("Input DataFrame before encoding:", input_df)
