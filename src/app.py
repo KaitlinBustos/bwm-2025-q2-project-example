@@ -3,29 +3,34 @@ import pandas as pd
 import numpy as np
 import joblib
 import json
+import os # Import the os module
+
+# --- Define paths relative to the app.py script ---
+# Get the directory where app.py is located
+APP_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(APP_DIR, 'svm_model.joblib')
+COLUMNS_PATH = os.path.join(APP_DIR, 'training_columns.json')
 
 # Load the trained model
 try:
-    model = joblib.load('svm_model.joblib')
+    model = joblib.load(MODEL_PATH) # Use the new MODEL_PATH
 except FileNotFoundError:
-    st.error("Model file 'svm_model.joblib' not found. Please train and save your model first.")
+    st.error(f"Model file '{MODEL_PATH}' not found. Please ensure 'svm_model.joblib' is in the 'src/' directory alongside 'app.py'.")
     st.stop()
 except Exception as e:
     st.error(f"Error loading model: {e}")
-    st.stop
-
+    st.stop()
 
 # Load the training columns
 try:
-    with open('training_columns.json', 'r') as f:
+    with open(COLUMNS_PATH, 'r') as f: # Use the new COLUMNS_PATH
         training_columns = json.load(f)
 except FileNotFoundError:
-    st.error("Training columns file 'training_columns.json' not found. Please save it from your notebook.")
+    st.error(f"Training columns file '{COLUMNS_PATH}' not found. Please ensure 'training_columns.json' is in the 'src/' directory alongside 'app.py'.")
     st.stop()
 except Exception as e:
     st.error(f"Error loading training columns: {e}")
-    st.stop
-
+    st.stop()
 # Title of the app
 st.title('Mental Health Stigma in the Workplace Survey 🧠')
 
